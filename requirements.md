@@ -48,8 +48,10 @@ the subjects into appropriate categories and streamlines the process for reviewi
 
 ## Minimum Viable Product vs What will your MVP functionality be?
 
+- Our MVP will be a simple website with a few multiple choice questions about code terminology and corresponding correct answers to those questions that are revealed upon quiz completion. 
 
 ### What are your Stretch goals?
+
 
 
 ### Functional Requirements:
