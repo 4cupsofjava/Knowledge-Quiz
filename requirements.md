@@ -52,19 +52,8 @@ the subjects into appropriate categories and streamlines the process for reviewi
 
 ### What are your Stretch goals?
 
-
-
-### Functional Requirements:
-
-#### List the functionality of your product. This will consist of tasks such as the following:
-
-1. An admin can create and delete user accounts
-2. A user can update their profile information
-3. A user can search all of the products in the inventory
-
-
-## Data Flow:
-
-Describe the flow of data in your application. Write out what happens from the time the user begins using the app to the time the user is done with the app.
-Think about the “Happy Path” of the application.
-Describe through visuals and text what requests are made, and what data is processed, in addition to any other details about how the user moves through the site.
+-Our stretch goals are:
+ -To return reference links for each topic at the end of the quiz for quiztakers to review for further learning.
+ -To add an additional page for the teacher, that is for all quiztakers scores.
+ -If a quiztaker gets a perfect score they can add a new question to the quiz.
+ -Add a leaderboard of all quiztakers and their rank.
