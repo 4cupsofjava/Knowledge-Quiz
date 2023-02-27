@@ -28,19 +28,21 @@ the subjects into appropriate categories and streamlines the process for reviewi
 
 ### 1. IN - What will your product do
 
- - Describe the individual features that your product will do.
+ - The website aims to provide users/students with a platform to take a knowledge assessment focused on JavaScript, HTML, and CSS. The assessment will consist of multiple choice questions, with one correct answer and three incorrect options. Users/students will also have the option to skip questions and revisit them later. In case of an incorrect answer, the user/student will be provided with helpful links and information related to the subject matter of the question. The website will track and record the user/student's score, which will be used to generate a final grade at the end of the test. As an admin, a teacher will have access to a dedicated page to input custom test questions into the website's database, as well as view student test scores and basic student information such as their name.
 
- - High overview of each. Only need to list 4-5
-
-
-Example:
-The web app will provide information to the users about all the different Cat Cafe’s in the area
-The web app will provide both walking and driving directions to each of the destinations
-Users will be able to “Star” their favorite shops.
-Each shop will contain reviews of the customer’s experiences
+ ## High overview:
+ 
+ - The website aims to provide users/students with a platform to take a knowledge assessment focused on JavaScript, HTML, and CSS.
+ - The assessment will consist of multiple choice questions, with one correct answer and three incorrect options.
+ - Users/students will also have the option to skip questions and revisit them later.
+ - In case of an incorrect answer, the user/student will be provided with helpful links and information related to the subject matter of the question.
+ - The website will track and record the user/student's score, which will be used to generate a final grade at the end of the test.
+ - As an admin, a teacher will have access to a dedicated page to input custom test questions into the website's database, as well as view student test scores and basic student information such as their name.
 
 
 ### 2. OUT - What will your product not do.
+
+- My website will never tunr into an anroid app.
 
 - These should be features that you will make very clear from the beginning that you will not do during development.
 These should be limited and very few. Pick your battles wisely. This should only be 1 or 2 things.
