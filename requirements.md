@@ -42,12 +42,9 @@ the subjects into appropriate categories and streamlines the process for reviewi
 
 ### 2. OUT - What will your product not do.
 
-- My website will never tunr into an anroid app.
+- Our website is not intended to be a mobile app at this point in time.
 
-- These should be features that you will make very clear from the beginning that you will not do during development.
-These should be limited and very few. Pick your battles wisely. This should only be 1 or 2 things.
-Example: My website will never turn into an IOS or Android app.
-
+- Our knowledge is not intended to be used for students in levels above 201.
 
 ## Minimum Viable Product vs What will your MVP functionality be?
 
