@@ -7,4 +7,4 @@ Team Members:
 - Chris Foster
 - Jennifer Dotson
 
-!(wireframe.png)[wireframe.png]
+![wireframe.png](wireframe.png)
