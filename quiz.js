@@ -7,7 +7,7 @@ function Question(question, correctAnswer, wrongAnswers, resources) {
   this.resources = resources;
   this.notSkipped = false;
   this.hasBeenAnswered = false;
-}
+};
 
 function Quiz(testQuestions) {
   this.testQuestions = testQuestions;
@@ -18,7 +18,7 @@ function Quiz(testQuestions) {
   this.skippedQuestionIndex = 0;
   this.questionsAnsweredArray = [];
   this.userWrongAnswersArray = [];
-}
+};
 
 //Method to display question
 Quiz.prototype.displayQuestion = function() {
@@ -27,7 +27,8 @@ Quiz.prototype.displayQuestion = function() {
   while (question.notSkipped && this.currentQuestionIndex < this.testQuestions.length - 1) {
     this.currentQuestionIndex++;
     question = this.testQuestions[this.currentQuestionIndex];
-  }
+  };
+
   let questionText = document.querySelector('#question');
   questionText.textContent = question.question;
 
@@ -37,9 +38,8 @@ Quiz.prototype.displayQuestion = function() {
   answers.splice(Math.floor(Math.random() * (answers.length + 1)), 0, question.correctAnswer);
   for (let i = 0; i < choices.length; i++) {
     choices[i].textContent = answers[i];
-  }
-}
-
+  };
+};
 
 // Skip button method
 Quiz.prototype.displaySkippedQuestion = function() {
@@ -65,6 +65,7 @@ Quiz.prototype.displaySkippedQuestion = function() {
     choices[i].textContent = answers[i];
   }
 };
+
 //Checking for answer type skip, correct, incorrect
 Quiz.prototype.checkAnswer = function(answer) {
   //reassigning our question variable to current question by grabbing our questions array and attaching our currentQuestionIndex we set to zero during construction. After each question we use currentQuestionIndex++ to go up a question after each question. 
@@ -129,7 +130,6 @@ Quiz.prototype.displayScore = function() {
   let scoreText = document.createElement('p');
   scoreText.textContent = `You got ${numCorrect} out of ${numQuestions} correct.`;
   reviewDiv.appendChild(scoreText);
-
   let allQuestions = this.testQuestions.concat(this.skippedQuestions);
   for (let i = 0; i < allQuestions.length; i++) {
     let question = allQuestions[i];
@@ -150,9 +150,9 @@ Quiz.prototype.displayScore = function() {
       link.textContent = question.resources[j];
       resource.appendChild(link);
       resourcesList.appendChild(resource);
-    }
+    };
     reviewDiv.appendChild(questionDiv);
-  }
+  };
   // Add the review div to the page
   let body = document.querySelector('body');
   body.appendChild(reviewDiv);
@@ -167,7 +167,6 @@ Quiz.prototype.displayScore = function() {
   });
   reviewDiv.appendChild(restartButton);
 };
-
 function startQuiz() {
   let quiz = new Quiz(testQuestions);
   quiz.displayQuestion();
@@ -182,10 +181,8 @@ function startQuiz() {
     choices[i].addEventListener('click', function(event) {
       quiz.checkAnswer(event.target.textContent);
     });
-  }
-}
-
-
+  };
+};
 
 let testQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?",    "The process by which an event is handled by its target element, and then by its parent elements",    [      "The process by which an event is handled only by its target element",      "The process by which an event is handled by all elements on the page",      "The process by which an event is handled by its parent element, and then by its child elements"    ],
     [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#Event_bubbling_and_capture",      "https://www.w3schools.com/js/js_htmldom_eventlistener.asp",      "https://javascript.info/bubbling-and-capturing"    ]
@@ -260,13 +257,6 @@ let testQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?
     ["A function that returns a random number", "A keyword used to declare a variable", "A function that returns the maximum value of an array"],
     ["https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN", "https://www.w3schools.com/jsref/jsref_nan.asp", "https://javascript.info/number#nan"]
   ),
-  new Question(
-    "What is 'NaN' in JavaScript?",
-    "A value representing Not-A-Number",
-    ["A function that returns a random number", "A keyword used to declare a variable", "A function that returns the maximum value of an array"],
-    ["https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/NaN", "https://www.w3schools.com/jsref/jsref_nan.asp", "https://javascript.info/number#nan"]
-  ),
-  
   new Question(
     "Which of the following is a correct way to declare a function in JavaScript?",
     "function myFunction() {}",
