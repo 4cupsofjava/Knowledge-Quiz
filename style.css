@@ -1,6 +1,27 @@
 html {
-
+  display: flex;
   background-size: cover;
+  justify-content: center;
+}
+
+header {
+  text-align: center;
+  margin: 50px;
+}
+
+nav {
+  text-align: center;
+  margin-top: 150px;
+}
+
+nav ul {
+  display: flex;
+  justify-content: center;
+}
+
+nav ul li a {
+  margin: 50px;
+  text-decoration: none;
 }
 
 #matrix-container {
