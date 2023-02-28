@@ -174,3 +174,54 @@ ul li {
 .skipped {
   color: gray;
 }
+
+
+/* About Us Styling */
+
+
+.image-container img {
+  border: 5px solid black;
+  height: 250px;
+  width: 250px;
+  margin: 25px;
+}
+
+.bio-1 {
+  display: flex;
+  border: 2px solid black;
+  margin: 30px;
+}
+
+.bio-1 p{
+  padding: 10px;
+}
+
+.bio-2 {
+  display: flex;
+  border: 2px solid black;
+  margin: 30px;
+}
+
+.bio-2 p{
+  padding: 10px;
+}
+
+.bio-3 {
+  display: flex;
+  border: 2px solid black;
+  margin: 30px;
+}
+
+.bio-3 p{
+  padding: 10px;
+}
+
+.bio-4 {
+  display: flex;
+  border: 2px solid black;
+  margin: 30px;
+}
+
+.bio-4 p{
+  padding: 10px;
+}
