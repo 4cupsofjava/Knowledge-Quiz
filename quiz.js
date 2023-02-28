@@ -1,5 +1,25 @@
 'use strict';
 
+let myForm = document.querySelector('#my-form');
+
+function handleFormSubmit(event) {
+  event.preventDefault();
+  let firstName = event.target.elements.firstName.value;
+  let lastName = event.target.elements.lastName.value; 
+  console.log(`First Name: ${firstName}`);
+  console.log(`Last Name: ${lastName}`);
+  let form = document.getElementById('my-form');
+  // form.addEventListener('submit', function(event) {
+  // event.preventDefault(); // prevent form submission
+  let nameFields = form.querySelector('fieldset');
+  nameFields.style.display = 'none';
+  // }
+};
+
+myForm.addEventListener('submit', handleFormSubmit); 
+
+let amount = 0
+
 function Question(question, correctAnswer, wrongAnswers, resources) {
   this.question = question;
   this.correctAnswer = correctAnswer;
