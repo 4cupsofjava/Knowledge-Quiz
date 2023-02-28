@@ -1,3 +1,4 @@
+
 'use strict';
 
 let myForm = document.querySelector('#my-form');
@@ -38,8 +39,6 @@ function Quiz(allQuestions) {
   this.skippedQuestionIndex = 0;
   this.userWrongAnswersArray = [];
 };
-
-let amount = 0
 
 //Method to display question
 Quiz.prototype.displayQuestion = function() {
