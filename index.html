@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>JavaScript Quiz</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+ 
+  <header>
+    <h1>Qode Quiz</h1>
+      <nav>
+        <ul>
+          <li><h2><a href="teacher.html">Teacher Resourses</a></h2></li>
+          <li><h2><a href="about.html">About Us</a></h2></li>
+        </ul>
+      </nav>
+  </header>
+
+  <body>
+    <form id="my-form">
+      <fieldset>
+        <legend id="form-title">Fill Out To Begin:</legend>
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" name="firstName">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" name="lastName">
+        <button type="submit">Begin Quiz</button>
+      </fieldset>
+    </form>
+    <div class="container">
+      <div id="quiz">
+        <h2 id="question"></h2>
+        <ul id="choices">
+          <li class="choice"></li>
+          <li class="choice"></li>
+          <li class="choice"></li>
+          <li class="choice"></li>
+          <li><button id="skip">Skip</button></li>
+        </ul>
+      </div>
+      <div id="review" style="display:none;">
+        <h2>Quiz Review</h2>
+        <div id="wrong-answers">
+        </div>
+      </div>
+      <p id="score"></p>
+      <ul id="resources"></ul>
+      <button id="restart" onclick="location.reload()">Restart Quiz</button>
+    </div>
+    <script src="quiz.js"></script>
+  </body>
+  <footer></footer>
+</html>
+
+
+
+
+
+
+
+
+
+
+
