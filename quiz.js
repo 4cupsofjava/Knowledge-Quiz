@@ -1,3 +1,4 @@
+
 'use strict';
 
 function Question(question, correctAnswer, wrongAnswers, resources) {
@@ -5,29 +6,24 @@ function Question(question, correctAnswer, wrongAnswers, resources) {
   this.correctAnswer = correctAnswer;
   this.wrongAnswers = wrongAnswers;
   this.resources = resources;
-  this.notSkipped = false;
-  this.hasBeenAnswered = false;
+  this.skipped = false;
+  this.answerSubmitted = false;
 };
 
-function Quiz(testQuestions) {
-  this.testQuestions = testQuestions;
+function Quiz(allQuestions) {
+  this.allQuestions = allQuestions;
   this.currentQuestionIndex = 0;
   this.score = 0;
-  this.userAllAnswers = [];
+  this.submittedQuestions = [];
   this.skippedQuestions = [];
   this.skippedQuestionIndex = 0;
-  this.questionsAnsweredArray = [];
   this.userWrongAnswersArray = [];
 };
 
 //Method to display question
 Quiz.prototype.displayQuestion = function() {
-  let question = this.testQuestions[this.currentQuestionIndex];
+  let question = this.allQuestions[this.currentQuestionIndex];
   //Check if the question is skipped or last question in array
-  while (question.notSkipped && this.currentQuestionIndex < this.testQuestions.length - 1) {
-    this.currentQuestionIndex++;
-    question = this.testQuestions[this.currentQuestionIndex];
-  };
 
   let questionText = document.querySelector('#question');
   questionText.textContent = question.question;
@@ -41,82 +37,37 @@ Quiz.prototype.displayQuestion = function() {
   };
 };
 
-// Skip button method
-Quiz.prototype.displaySkippedQuestion = function() {
-  //create question that will be handled
-  let question = this.skippedQuestions[this.skippedQuestionIndex];
-  //Check if the question is skipped or last question in array
-  while (this.skippedQuestionIndex < this.skippedQuestions.length -1){
-    this.skippedQuestionIndex++;
-    question = this.skippedQuestions[this.skippedQuestionIndex];
-  }
-  // Here we are grabbing the questions and answers from our test questions array and using them to fill the elements our html
-
-  //Selects the element with #question id in our 
-  let questionText = document.querySelector('#question');
-  questionText.textContent = question.question;
-  //Does the same thing as above, but for the choices
-  let choices = document.querySelectorAll('.choice');
-  //Uses .sllice() to open up our wrong answer array and slides our correct answer into it in a random random index slot
-  let answers = question.wrongAnswers.slice();
-  answers.splice(Math.floor(Math.random() * (answers.length + 1)), 0, question.correctAnswer);
-  //writes content into each of the choice elements in our html
-  for (let i = 0; i < choices.length; i++) {
-    choices[i].textContent = answers[i];
-  }
-};
-
-//Checking for answer type skip, correct, incorrect
 Quiz.prototype.checkAnswer = function(answer) {
-  //reassigning our question variable to current question by grabbing our questions array and attaching our currentQuestionIndex we set to zero during construction. After each question we use currentQuestionIndex++ to go up a question after each question. 
-  let question = this.testQuestions[this.currentQuestionIndex];
-  //Handles skip answer by assigning it to skippedQuestions array then increases index for next question and goes to next question
+  let question = this.allQuestions[this.currentQuestionIndex];
+  
   if (answer === 'skip') {
-    this.skippedQuestions.push(question);
+    this.allQuestions.push(question);
     this.currentQuestionIndex++;
     this.displayQuestion();
-    console.log(`Skipped${question}`);
+    console.log(`Skipped: ${question}`);
   } else {
     if (answer === question.correctAnswer) {
       console.log("Correct!");
-      question.hasBeenAnswered = true;
       this.score++;
+      amount++;
     } else {
-      question.hasBeenAnswered = true;
-      this.userWrongAnswersArray.push(question);
       console.log("Incorrect!");
       console.log("Resources:");
       console.log(question.resources);
+      amount++;
     }
-    //pushes answer to userAllAnswers array we call later for review
-    console.log(answer);
-    this.userAllAnswers.push(answer);
     this.currentQuestionIndex++;
-    //Checks whether the lenght of questions has been asked
-    if (this.currentQuestionIndex < this.testQuestions.length) {
-      //If the length of testQuestions hasn't been asked, assign next question
-      let nextQuestion = this.testQuestions[this.currentQuestionIndex];
+    this.submittedQuestions.push(question);
+    //Checks whether the length of questions has been asked
+    if (this.currentQuestionIndex < this.allQuestions.length) {
+      //If the length of allQuestions hasn't been asked, assign next question
       this.displayQuestion();
     } else {
-      for (let i = 0; i < this.skippedQuestions.length; i++) {
-        let question = this.skippedQuestions[this.skippedQuestionIndex];
-        if (answer === question.correctAnswer) {
-          console.log("Correct!");
-          this.score++;
-        } else {
-          console.log("Incorrect!");
-          console.log("Resources:");
-          console.log(question.resources);
-        }
-        this.userAllAnswers.push(answer);
-        this.displaySkippedQuestion();
-        this.userAllAnswers.push(answer);
-      }
-      console.log(this.userAllAnswers);
       this.displayScore();
     }
   }
-};
+}
+
 
 Quiz.prototype.displayScore = function() {
   let quizDiv = document.getElementById('quiz');
@@ -125,15 +76,14 @@ Quiz.prototype.displayScore = function() {
   let reviewDiv = document.createElement('div');
   reviewDiv.id = 'review';
 
-  let numQuestions = this.testQuestions.length
+  let numQuestions = amount;
   let numCorrect = this.score
   let scoreText = document.createElement('p');
   scoreText.textContent = `You got ${numCorrect} out of ${numQuestions} correct.`;
   reviewDiv.appendChild(scoreText);
-  let allQuestions = this.testQuestions.concat(this.skippedQuestions);
   for (let i = 0; i < allQuestions.length; i++) {
     let question = allQuestions[i];
-    let userAnswer = this.userAllAnswers[i];
+    let userAnswer = this.submittedQuestions[i];
     let questionDiv = document.createElement('div');
     questionDiv.classList.add('question');
     questionDiv.innerHTML = `<h3>${question.question}</h3>
@@ -167,8 +117,9 @@ Quiz.prototype.displayScore = function() {
   });
   reviewDiv.appendChild(restartButton);
 };
+
 function startQuiz() {
-  let quiz = new Quiz(testQuestions);
+  let quiz = new Quiz(allQuestions);
   quiz.displayQuestion();
 
   let skipButton = document.getElementById('skip');
@@ -184,7 +135,7 @@ function startQuiz() {
   };
 };
 
-let testQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?",    "The process by which an event is handled by its target element, and then by its parent elements",    [      "The process by which an event is handled only by its target element",      "The process by which an event is handled by all elements on the page",      "The process by which an event is handled by its parent element, and then by its child elements"    ],
+let allQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?",    "The process by which an event is handled by its target element, and then by its parent elements",    [      "The process by which an event is handled only by its target element",      "The process by which an event is handled by all elements on the page",      "The process by which an event is handled by its parent element, and then by its child elements"    ],
     [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#Event_bubbling_and_capture",      "https://www.w3schools.com/js/js_htmldom_eventlistener.asp",      "https://javascript.info/bubbling-and-capturing"    ]
   ),
   new Question(
@@ -220,7 +171,7 @@ let testQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?
     [
       "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Addition",
       "https://www.w3schools.com/js/js_type_conversion.asp",
-      "https://stackoverflow.com/testQuestions/56165271/why-does-1-22-2-equal-122-in-javascript"
+      "https://stackoverflow.com/allQuestions/56165271/why-does-1-22-2-equal-122-in-javascript"
     ]
   ),
   new Question(
@@ -289,7 +240,7 @@ let testQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?
     "What is the difference between 'null' and 'undefined' in JavaScript?",
     "'null' is an assigned value, while 'undefined' means a variable has been declared but not defined",
     ["'undefined' is an assigned value, while 'null' means a variable has been declared but not defined", "'null' is a primitive data type, while 'undefined' is an object", "'undefined' is a primitive data type, while 'null' is an object"],
-    ["https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null", "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined", "https://stackoverflow.com/testQuestions/5076944/what-is-the-difference-between-null-and-undefined-in-javascript"]
+    ["https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/null", "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/undefined", "https://stackoverflow.com/allQuestions/5076944/what-is-the-difference-between-null-and-undefined-in-javascript"]
   ),
   
   new Question(
@@ -301,4 +252,3 @@ let testQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?
 ];
 
 startQuiz();
-
