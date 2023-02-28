@@ -1,4 +1,3 @@
-
 'use strict';
 
 function Question(question, correctAnswer, wrongAnswers, resources) {
