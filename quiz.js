@@ -3,6 +3,8 @@
 
 let myForm = document.querySelector('#my-form');
 
+
+
 function handleFormSubmit(event) {
   event.preventDefault();
   let firstName = event.target.elements.firstName.value;
@@ -10,11 +12,12 @@ function handleFormSubmit(event) {
   console.log(`First Name: ${firstName}`);
   console.log(`Last Name: ${lastName}`);
   let form = document.getElementById('my-form');
-  // form.addEventListener('submit', function(event) {
-  // event.preventDefault(); // prevent form submission
   let nameFields = form.querySelector('fieldset');
+  //set display to none when the form is submitted
   nameFields.style.display = 'none';
-  // }
+  //set display to block when the form is submitted
+  let quizDiv = document.getElementById('quiz');
+  quizDiv.style.display = 'block';
 };
 
 myForm.addEventListener('submit', handleFormSubmit); 
@@ -38,6 +41,7 @@ function Quiz(allQuestions) {
   this.skippedQuestions = [];
   this.skippedQuestionIndex = 0;
   this.userWrongAnswersArray = [];
+  this.userName = null;
 };
 
 //Method to display question
