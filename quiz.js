@@ -19,6 +19,8 @@ function handleFormSubmit(event) {
 
 myForm.addEventListener('submit', handleFormSubmit); 
 
+let amount = 0
+
 function Question(question, correctAnswer, wrongAnswers, resources) {
   this.question = question;
   this.correctAnswer = correctAnswer;
