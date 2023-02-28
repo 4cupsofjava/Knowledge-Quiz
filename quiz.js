@@ -20,6 +20,8 @@ function Quiz(allQuestions) {
   this.userWrongAnswersArray = [];
 };
 
+let amount = 0
+
 //Method to display question
 Quiz.prototype.displayQuestion = function() {
   let question = this.allQuestions[this.currentQuestionIndex];
