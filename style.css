@@ -248,7 +248,7 @@ ul li {
   padding: 10px;
 }
 
-/* initialize display as none while we wait for form to be submitted*/
-#quiz {
+/* initialize quiz container display as none while we wait for form to be submitted*/
+#quiz.container {
   display: none;
 }

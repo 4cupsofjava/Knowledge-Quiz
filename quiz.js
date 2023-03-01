@@ -81,7 +81,7 @@ Quiz.prototype.checkAnswer = function(answer) {
       amount++;
     }
     this.currentQuestionIndex++;
-    this.submittedQuestions.push(question);
+    this.submittedQuestions.push(answer);
     //Checks whether the length of questions has been asked
     if (this.currentQuestionIndex < this.allQuestions.length) {
       //If the length of allQuestions hasn't been asked, assign next question
