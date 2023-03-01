@@ -247,3 +247,8 @@ ul li {
 .bio-4 p{
   padding: 10px;
 }
+
+/* initialize quiz container display as none while we wait for form to be submitted*/
+#quiz.container {
+  display: none;
+}
