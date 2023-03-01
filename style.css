@@ -9,16 +9,70 @@
   z-index: -1;
 }
 
-#my-form {
-  display: inline-block;
-  color: white;
+#my-form fieldset label {
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+#my-form fieldset input:hover {
+  transition: 350ms;
+  box-shadow: 0px 1px 30px rgb(148, 236, 151);
+}
+
+#my-form fieldset button {
+  margin-top: 40px;
+  margin-bottom: 25px;
+  padding: 10px 20px;
+  background-color: #04871a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+#my-form fieldset button:hover {
+  border: 5px solid rgb(4, 172, 27)
+}
+
+#my-form fieldset {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  padding: 30px;
+  align-items: center;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 100px;
+  width: 500px;
+  height: 300px;
+  color: rgb(9, 211, 9);
+  text-shadow: black 1px 1px;
   background-color: rgba(4, 4, 4, 0.7);
   border-color:rgb(6, 152, 40);
-  border-radius: 10px;
-  box-shadow: 0px 1px 30px rgba(42, 235, 50, 0.5);
+  border-radius: 5px;
+  animation: shadow-animation 5s infinite;
 }
+
+@keyframes shadow-animation {
+  0%, 100% {
+    box-shadow: 0px 1px 30px rgba(2, 83, 5, 0);
+  }
+  10%, 90% {
+    box-shadow: 0px 1px 30px rgb(119, 242, 123);
+  }
+  20%, 80% {
+    box-shadow: 0px 1px 30px rgba(4, 139, 8, 1);
+  }
+  30%, 70% {
+    box-shadow: 0px 1px 30px rgba(5, 199, 12, 1);
+  }
+  40%, 60% {
+    box-shadow: 0px 1px 30px rgba(2, 214, 11, 1);
+  }
+  50% {
+    box-shadow: 0px 1px 30px rgba(5, 250, 14, 1);
+  }
+}
+
 
 header {
   text-align: center;
@@ -26,29 +80,31 @@ header {
 }
 
 nav {
-  text-align: center;
-  margin-top: 150px;
-  
+  text-align: center;  
 }
 
 nav ul {
   display: flex;
   justify-content: center;
+  
 }
 
 nav ul li a {
   margin: 50px;
   text-decoration: none;
-  color: rgb(255, 255, 255);
+  color: rgb(12, 222, 8);
+}
+
+nav ul li a:hover {
+  transition: 350ms; 
+  color: white;
+  text-shadow: 0px 1px 30px rgba(5, 250, 14, 1);
 }
 
 nav ul li {
   color: rgb(255, 255, 255);
-  background-color: rgba(4, 4, 4, .9);
-  border-color:rgb(6, 152, 40);
-  border-radius: 40px;
-  box-shadow: 0px 1px 30px rgba(42, 235, 50, 0.5);
-  margin-left: 50px;
+  text-shadow: 1px 1px 1px rgb(0, 0, 0);
+  margin: 25px;
 
 }
 
@@ -78,19 +134,19 @@ canvas {
 }
 
 
-
 h1 {
   font-size: 80px;
   text-align: center;
   color: rgb(255, 255, 255);
   text-shadow: 3px 2px 2px rgb(6, 152, 40);
-  padding: 250px;
+  padding: 50px;
+  padding-top: 250px;
 }
 
 
 #quiz,
 #review {
-  max-height: 300px;
+  max-height: 700px;
   overflow-y: auto;
   border: 1px solid;
   border-radius: 5px;
@@ -117,7 +173,10 @@ h1 {
 }
 
 #quiz .choice:hover {
-  background-color: #f7f7f7;
+  transition: 200ms;
+  background-color: #0f5203;
+  color:rgb(255, 255, 255)
+ 
 }
 
 #quiz .choice.selected {
@@ -145,6 +204,7 @@ ul {
 
 ul li {
   margin: 5px 0;
+  
 }
 
 #resources a {
@@ -232,6 +292,21 @@ ul li {
   color: gray;
 }
 
+#quiz.container button {
+  margin-top: 40px;
+  margin-bottom: 25px;
+  padding: 10px 20px;
+  background-color: #04871a;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+}
+
+#quiz.container button:hover {
+border: 5px solid rgb(4, 172, 27)
+}
+
 /* About Us Styling */
 
 .image-container img {
@@ -284,4 +359,8 @@ ul li {
 /* initialize quiz container display as none while we wait for form to be submitted*/
 #quiz.container {
   display: none;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
+  color:rgb(9, 211, 9)
 }
