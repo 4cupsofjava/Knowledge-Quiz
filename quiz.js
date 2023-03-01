@@ -90,7 +90,6 @@ Quiz.prototype.checkAnswer = function(answer) {
   }
 }
 
-
 Quiz.prototype.displayScore = function() {
   let quizDiv = document.getElementById('quiz');
   quizDiv.style.display = 'none';
