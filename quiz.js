@@ -3,8 +3,6 @@
 
 let myForm = document.querySelector('#my-form');
 
-
-
 function handleFormSubmit(event) {
   event.preventDefault();
   let firstName = event.target.elements.firstName.value;
