@@ -310,50 +310,79 @@ border: 5px solid rgb(4, 172, 27)
 /* About Us Styling */
 
 .image-container img {
-  border: 5px solid black;
+  border: 5px solid ;
   height: 250px;
   width: 250px;
   margin: 25px;
+  box-shadow: 0px 1px 30px rgba(253, 253, 253, 0.5);
 }
 
 .bio-1 {
   display: flex;
-  border: 2px solid black;
+  font-size: 24px;
+  text-align: justify;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid white;
+  color: white;
   margin: 30px;
+  padding: 10px;
+  box-shadow: 0px 1px 30px rgba(2, 255, 14, 0.622);
 }
 
 .bio-1 p{
   padding: 10px;
+  margin-top: 12px;
 }
 
 .bio-2 {
   display: flex;
-  border: 2px solid black;
+  font-size: 24px;
+  text-align: justify;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid white;
+  color: white;
   margin: 30px;
+  padding: 10px;
+  box-shadow: 0px 1px 30px rgba(2, 255, 14, 0.622);
 }
 
 .bio-2 p{
-  padding: 10px;
+   padding: 10px;
+  margin-top: 12px;
 }
 
 .bio-3 {
   display: flex;
-  border: 2px solid black;
+  font-size: 24px;
+  text-align: justify;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid white;
+  color: white;
   margin: 30px;
+  padding: 10px;
+  box-shadow: 0px 1px 30px rgba(2, 255, 14, 0.622);
 }
 
 .bio-3 p{
   padding: 10px;
+  margin-top: 12px;
 }
 
 .bio-4 {
   display: flex;
-  border: 2px solid black;
+  font-size: 24px;
+  text-align: justify;
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 2px solid white;
+  color: white;
   margin: 30px;
+  padding: 10px;
+  box-shadow: 0px 1px 30px rgba(2, 255, 14, 0.622);
 }
 
 .bio-4 p{
   padding: 10px;
+  margin-top: 12px;
 }
 
 /* initialize quiz container display as none while we wait for form to be submitted*/
