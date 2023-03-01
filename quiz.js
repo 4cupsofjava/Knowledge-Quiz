@@ -1,4 +1,3 @@
-
 'use strict';
 
 let myForm = document.querySelector('#my-form');
@@ -89,8 +88,6 @@ Quiz.prototype.checkAnswer = function(answer) {
   }
 }
 
-
-
 Quiz.prototype.displayScore = function() {
   let quizDiv = document.getElementById('quiz');
   quizDiv.style.display = 'none';
@@ -167,7 +164,8 @@ function startQuiz() {
   };
 };
 
-
+console.log(localStorage.getItem('userScores'));
+console.log(localStorage.getItem('userScores'[1]));
 let allQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?",    "The process by which an event is handled by its target element, and then by its parent elements",    [      "The process by which an event is handled only by its target element",      "The process by which an event is handled by all elements on the page",      "The process by which an event is handled by its parent element, and then by its child elements"    ],
     [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#Event_bubbling_and_capture",      "https://www.w3schools.com/js/js_htmldom_eventlistener.asp",      "https://javascript.info/bubbling-and-capturing"    ]
   ),
@@ -285,3 +283,4 @@ let allQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?"
 ];
 
 startQuiz();
+
