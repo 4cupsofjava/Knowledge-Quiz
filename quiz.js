@@ -1,23 +1,26 @@
-
 'use strict';
 
 let myForm = document.querySelector('#my-form');
 
+let userName = ''
 function handleFormSubmit(event) {
   event.preventDefault();
   let firstName = event.target.elements.firstName.value;
-  let lastName = event.target.elements.lastName.value; 
-  console.log(`First Name: ${firstName}`);
-  console.log(`Last Name: ${lastName}`);
+  let lastName = event.target.elements.lastName.value;
+  userName = `${firstName} ${lastName}`;
+
   let form = document.getElementById('my-form');
-  // form.addEventListener('submit', function(event) {
-  // event.preventDefault(); // prevent form submission
   let nameFields = form.querySelector('fieldset');
   nameFields.style.display = 'none';
-  // }
+
+  let quizDiv = document.getElementById('quiz');
+  quizDiv.style.display = 'block';
+
+  // let quiz = new Quiz(userName, allQuestions);
+  // // quiz.displayQuestion();
 };
 
-myForm.addEventListener('submit', handleFormSubmit); 
+myForm.addEventListener('submit', handleFormSubmit);
 
 let amount = 0
 
@@ -26,18 +29,15 @@ function Question(question, correctAnswer, wrongAnswers, resources) {
   this.correctAnswer = correctAnswer;
   this.wrongAnswers = wrongAnswers;
   this.resources = resources;
-  this.skipped = false;
-  this.answerSubmitted = false;
 };
 
-function Quiz(allQuestions) {
+function Quiz(userName, allQuestions) {
+  this.userName = userName;
   this.allQuestions = allQuestions;
   this.currentQuestionIndex = 0;
   this.score = 0;
   this.submittedQuestions = [];
-  this.skippedQuestions = [];
-  this.skippedQuestionIndex = 0;
-  this.userWrongAnswersArray = [];
+
 };
 
 //Method to display question
@@ -77,7 +77,7 @@ Quiz.prototype.checkAnswer = function(answer) {
       amount++;
     }
     this.currentQuestionIndex++;
-    this.submittedQuestions.push(question);
+    this.submittedQuestions.push(answer);
     //Checks whether the length of questions has been asked
     if (this.currentQuestionIndex < this.allQuestions.length) {
       //If the length of allQuestions hasn't been asked, assign next question
@@ -88,7 +88,6 @@ Quiz.prototype.checkAnswer = function(answer) {
   }
 }
 
-
 Quiz.prototype.displayScore = function() {
   let quizDiv = document.getElementById('quiz');
   quizDiv.style.display = 'none';
@@ -97,7 +96,7 @@ Quiz.prototype.displayScore = function() {
   reviewDiv.id = 'review';
 
   let numQuestions = amount;
-  let numCorrect = this.score
+  let numCorrect = this.score;
   let scoreText = document.createElement('p');
   scoreText.textContent = `You got ${numCorrect} out of ${numQuestions} correct.`;
   reviewDiv.appendChild(scoreText);
@@ -136,10 +135,20 @@ Quiz.prototype.displayScore = function() {
     location.reload();
   });
   reviewDiv.appendChild(restartButton);
+
+  // Store the user's score in the userScores array
+  let userScores = [];
+  if (localStorage.getItem('userScores')) {
+    userScores = JSON.parse(localStorage.getItem('userScores'));
+  }
+  userScores.push({userName, numCorrect, amount});
+  localStorage.setItem('userScores', JSON.stringify(userScores));
+  console.log(userScores);
 };
 
+
 function startQuiz() {
-  let quiz = new Quiz(allQuestions);
+  let quiz = new Quiz(userName, allQuestions);
   quiz.displayQuestion();
 
   let skipButton = document.getElementById('skip');
@@ -155,6 +164,8 @@ function startQuiz() {
   };
 };
 
+console.log(localStorage.getItem('userScores'));
+console.log(localStorage.getItem('userScores'[1]));
 let allQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?",    "The process by which an event is handled by its target element, and then by its parent elements",    [      "The process by which an event is handled only by its target element",      "The process by which an event is handled by all elements on the page",      "The process by which an event is handled by its parent element, and then by its child elements"    ],
     [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#Event_bubbling_and_capture",      "https://www.w3schools.com/js/js_htmldom_eventlistener.asp",      "https://javascript.info/bubbling-and-capturing"    ]
   ),
@@ -272,3 +283,4 @@ let allQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?"
 ];
 
 startQuiz();
+
