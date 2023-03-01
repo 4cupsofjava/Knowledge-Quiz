@@ -134,14 +134,14 @@ canvas {
 }
 
 
-h1 {
-  font-size: 80px;
-  text-align: center;
-  color: rgb(255, 255, 255);
-  text-shadow: 3px 2px 2px rgb(6, 152, 40);
-  padding: 50px;
-  padding-top: 250px;
-}
+header h1 {
+    font-size: 80px;
+    text-align: center;
+    color: rgb(255, 255, 255);
+    text-shadow: 3px 2px 2px rgb(6, 152, 40);
+    padding: 50px;
+    padding-top: 250px;
+  }
 
 
 #quiz,
