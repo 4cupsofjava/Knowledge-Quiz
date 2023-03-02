@@ -29,7 +29,9 @@ for (let i = 0; i < scores.length; i++) {
   let correctAnswer = scores[i].numCorrect;
   let numQuestions = scores[i].numQuestions;
   teachersPet.push(new studentInfo(firstName, lastName, correctAnswer, numQuestions));
+  console.log(teachersPet[teachersPet.length-1]); // Add this line
 }
+
 
 // Sort the teachersPet array by most correct answers
 teachersPet.sort(function(a, b) {
