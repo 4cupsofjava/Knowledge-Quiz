@@ -576,4 +576,3 @@ let allQuestions = [  new Question(
 ];
 
 startQuiz();
-
