@@ -10,7 +10,7 @@ function studentInfo(firstName, lastName, correctAnswer, wrongAnswers) {
 // Retrieve scores from localStorage and parse them from JSON
 let scores = JSON.parse(localStorage.getItem('userScores'));
 // Create an array of student objects
-let students = [
+let teachersPet = [
   new studentInfo("John", "Smith", 5, 4),
   new studentInfo("Jane", "Doe", 4, 5),
   new studentInfo("Alice", "Wonderland", 3, 6),
@@ -23,16 +23,16 @@ for (let i = 0; i < scores.length; i++) {
   let firstName = scores[i].userName.split(' ')[0];
   let lastName = scores[i].userName.split(' ')[1];
   let correctAnswer = scores[i].numCorrect;
-  let wrongAnswers = scores[i].numIncorrect;
-  students[i].name = firstName + ' ' + lastName;
-  students[i].correctAnswer = correctAnswer;
-  students[i].amount = wrongAnswers;
+  let wrongAnswers = scores[i].amount;
+  teachersPet.push(new studentInfo(firstName, lastName, correctAnswer, wrongAnswers));
 }
 
-let studentResults = document.getElementById("student-results");
+// Sort the teachersPet array by most correct answers
+teachersPet.sort(function(a, b) {
+  return b.correctAnswer - a.correctAnswer;
+});
 
-// Create an array of all students
-let teachersPet = students.concat(scores);
+let studentResults = document.getElementById("student-results");
 
 studentInfo.prototype.render = function() {
   let table = document.createElement('table');
@@ -50,10 +50,10 @@ studentInfo.prototype.render = function() {
   row1.appendChild(th2Elem);
 
   let th3Elem = document.createElement('th');
-  th3Elem.textContent = 'Wrong Answers';
+  th3Elem.textContent = 'Total Questions';
   row1.appendChild(th3Elem);
 
-  // Loop through the array of students and create a table row for each one
+  // Loop through the array of teachersPet and create a table row for each one
   for (let i = 0; i < teachersPet.length; i++) {
     let row = document.createElement('tr');
     table.appendChild(row);
