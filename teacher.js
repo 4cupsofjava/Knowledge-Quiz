@@ -11,11 +11,15 @@ function studentInfo(firstName, lastName, correctAnswer, wrongAnswers) {
 let scores = JSON.parse(localStorage.getItem('userScores'));
 // Create an array of student objects
 let teachersPet = [
-  new studentInfo("John", "Smith", 5, 4),
-  new studentInfo("Jane", "Doe", 4, 5),
-  new studentInfo("Alice", "Wonderland", 3, 6),
-  new studentInfo("Bob", "Builder", 6, 3),
-  new studentInfo("Peter", "Pan", 2, 7)
+  new studentInfo("Monica", "Lewinsky", 5, 20),
+  new studentInfo("DB", "Cooper", 8, 20),
+  new studentInfo("Amelia", "Earhart", 10, 20),
+  new studentInfo("Tupac", "Shakur", 15, 20),
+  new studentInfo("Steve", "Irwin", 2, 20),
+  new studentInfo("Anne", "Frank", 12, 20),
+  new studentInfo("Al", "Capone", 6, 20),
+  new studentInfo("Edgar Allan", "Poe", 7, 20),
+  new studentInfo("Mark", "Twain", 18, 20)
 ];
 
 // Loop through the scores array and update the corresponding student object
