@@ -25,7 +25,7 @@ for (let i = 0; i < scores.length; i++) {
   let lastName = scores[i].userName.split(' ')[1];
   let correctAnswer = scores[i].numCorrect;
   let wrongAnswers = scores[i].numIncorrect;
-  students[i].name = firstName + ' ' + lastName;
+  students[i].userName = firstName + ' ' + lastName;
   students[i].correctAnswer = correctAnswer;
   students[i].amount = wrongAnswers;
 }

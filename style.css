@@ -79,6 +79,25 @@ header {
   justify-content: center;
 }
 
+h3 {
+  
+  text-align: center;
+  font-size: 34px;
+  margin-bottom: 10px;
+  margin-top: 50px;
+  color: white;
+}
+
+table, th, tr, td{
+  margin: 0 auto;
+  color: white;
+}
+
+th, td {
+  border: 1px solid white;
+  padding: 15px;
+}
+
 nav {
   text-align: center;  
 }
@@ -134,14 +153,43 @@ canvas {
 }
 
 
-header h1 {
-    font-size: 80px;
-    text-align: center;
-    color: rgb(255, 255, 255);
-    text-shadow: 3px 2px 2px rgb(6, 152, 40);
-    padding: 50px;
-    padding-top: 250px;
+h1 {
+  font-size: 100px;
+  margin-top: 100px;
+  -webkit-text-stroke: .75px rgb(241, 245, 240);
+  margin-bottom: 75px;
+  display: inline-block;
+  background-size: cover;
+  background-image: url("img/ray-of-sunshine-small.jpg");
+  background-clip: text;
+  -webkit-background-clip: text; /* for Safari/Chrome */
+  color: transparent;
+  -webkit-text-fill-color: transparent; /* for Safari/Chrome */
+  animation-fill-mode: forwards;
+  animation: shadow-animation 5s infinite;
+}
+
+@keyframes shadow-animation {
+  0%, 100% {
+    box-shadow: 0px 1px 30px rgba(2, 83, 5, 0);
   }
+  10%, 90% {
+    box-shadow: 0px 1px 30px rgb(119, 242, 123);
+  }
+  20%, 80% {
+    box-shadow: 0px 1px 30px rgba(4, 139, 8, 1);
+  }
+  30%, 70% {
+    box-shadow: 0px 1px 30px rgba(5, 199, 12, 1);
+  }
+  40%, 60% {
+    box-shadow: 0px 1px 30px rgba(2, 214, 11, 1);
+  }
+  50% {
+    box-shadow: 0px 1px 30px rgba(5, 250, 14, 1);
+  }
+}
+
 
 
 #quiz,

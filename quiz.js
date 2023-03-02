@@ -283,4 +283,3 @@ let allQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?"
 ];
 
 startQuiz();
-
