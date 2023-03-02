@@ -29,15 +29,24 @@ function Question(question, correctAnswer, wrongAnswers, resources) {
   this.correctAnswer = correctAnswer;
   this.wrongAnswers = wrongAnswers;
   this.resources = resources;
+  this.userAnswer = "";
 };
 
 function Quiz(userName, allQuestions, numQuestions) {
   this.userName = userName;
+  
+  // Shuffle the allQuestions array
+  for (let i = allQuestions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
+  }
+  
   this.allQuestions = allQuestions.slice(0, numQuestions);
   this.currentQuestionIndex = 0;
   this.score = 0;
   this.submittedQuestions = [];
 };
+
 
 //Method to display question
 Quiz.prototype.displayQuestion = function() {
@@ -63,6 +72,8 @@ Quiz.prototype.displayQuestion = function() {
 
 Quiz.prototype.checkAnswer = function(answer) {
   let question = this.allQuestions[this.currentQuestionIndex];
+
+  question.userAnswer = answer; // Update the user's answer for the current question
   
   if (answer === 'skip') {
     this.allQuestions.push(question);
@@ -92,6 +103,7 @@ Quiz.prototype.checkAnswer = function(answer) {
   }
 }
 
+
 Quiz.prototype.displayScore = function() {
   let quizDiv = document.getElementById('quiz');
   quizDiv.style.display = 'none';
@@ -99,19 +111,20 @@ Quiz.prototype.displayScore = function() {
   let reviewDiv = document.createElement('div');
   reviewDiv.id = 'review';
 
-  let numQuestions = this.allQuestions.length;
+  let numQuestions = this.submittedQuestions.length;
   let numCorrect = this.score;
   let scoreText = document.createElement('p');
   scoreText.textContent = `You got ${numCorrect} out of ${numQuestions} correct.`;
   reviewDiv.appendChild(scoreText);
   for (let i = 0; i < numQuestions; i++) {
     let question = this.allQuestions[i];
-    let userAnswer = this.submittedQuestions[i];
+    let userAnswer = this.allQuestions[i].userAnswer;
+    console.log(this.allQuestions[i].userAnswer);
     let questionDiv = document.createElement('div');
     questionDiv.classList.add('question');
     questionDiv.innerHTML = `<h3>${question.question}</h3>
                              <p>Correct Answer: ${question.correctAnswer}</p>
-                             <p>Your Answer: ${userAnswer}</p>
+                             <p>Your Answer: ${question.userAnswer}</p>
                              <ul class="resources"></ul>`;
     // Display the resources for each question
     let resourcesList = questionDiv.querySelector('.resources');
