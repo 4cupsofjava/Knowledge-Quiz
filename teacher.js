@@ -1,10 +1,10 @@
 'use strict';
 
 // Define studentInfo constructor function before using it
-function studentInfo(firstName, lastName, correctAnswer, wrongAnswers) {
+function studentInfo(firstName, lastName, correctAnswer, numQuestions) {
   this.name = firstName + " " + lastName;
   this.correctAnswer = correctAnswer;
-  this.wrongAnswers = wrongAnswers;
+  this.numQuestions = numQuestions;
 }
 
 // Retrieve scores from localStorage and parse them from JSON
@@ -27,8 +27,8 @@ for (let i = 0; i < scores.length; i++) {
   let firstName = scores[i].userName.split(' ')[0];
   let lastName = scores[i].userName.split(' ')[1];
   let correctAnswer = scores[i].numCorrect;
-  let wrongAnswers = scores[i].amount;
-  teachersPet.push(new studentInfo(firstName, lastName, correctAnswer, wrongAnswers));
+  let numQuestions = scores[i].numQuestions;
+  teachersPet.push(new studentInfo(firstName, lastName, correctAnswer, numQuestions));
 }
 
 // Sort the teachersPet array by most correct answers
@@ -71,7 +71,7 @@ studentInfo.prototype.render = function() {
     row.appendChild(td2Elem);
 
     let td3Elem = document.createElement('td');
-    td3Elem.textContent = teachersPet[i].wrongAnswers;
+    td3Elem.textContent = teachersPet[i].numQuestions;
     row.appendChild(td3Elem);
   }
 };
