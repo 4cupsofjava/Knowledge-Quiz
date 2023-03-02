@@ -29,15 +29,24 @@ function Question(question, correctAnswer, wrongAnswers, resources) {
   this.correctAnswer = correctAnswer;
   this.wrongAnswers = wrongAnswers;
   this.resources = resources;
+  this.userAnswer = "";
 };
 
 function Quiz(userName, allQuestions, numQuestions) {
   this.userName = userName;
+  
+  // Shuffle the allQuestions array
+  for (let i = allQuestions.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
+  }
+  
   this.allQuestions = allQuestions.slice(0, numQuestions);
   this.currentQuestionIndex = 0;
   this.score = 0;
   this.submittedQuestions = [];
 };
+
 
 //Method to display question
 Quiz.prototype.displayQuestion = function() {
@@ -63,6 +72,8 @@ Quiz.prototype.displayQuestion = function() {
 
 Quiz.prototype.checkAnswer = function(answer) {
   let question = this.allQuestions[this.currentQuestionIndex];
+
+  question.userAnswer = answer; // Update the user's answer for the current question
   
   if (answer === 'skip') {
     this.allQuestions.push(question);
@@ -92,6 +103,7 @@ Quiz.prototype.checkAnswer = function(answer) {
   }
 }
 
+
 Quiz.prototype.displayScore = function() {
   let quizDiv = document.getElementById('quiz');
   quizDiv.style.display = 'none';
@@ -99,19 +111,20 @@ Quiz.prototype.displayScore = function() {
   let reviewDiv = document.createElement('div');
   reviewDiv.id = 'review';
 
-  let numQuestions = this.allQuestions.length;
+  let numQuestions = this.submittedQuestions.length;
   let numCorrect = this.score;
   let scoreText = document.createElement('p');
   scoreText.textContent = `You got ${numCorrect} out of ${numQuestions} correct.`;
   reviewDiv.appendChild(scoreText);
   for (let i = 0; i < numQuestions; i++) {
     let question = this.allQuestions[i];
-    let userAnswer = this.submittedQuestions[i];
+    let userAnswer = this.allQuestions[i].userAnswer;
+    console.log(this.allQuestions[i].userAnswer);
     let questionDiv = document.createElement('div');
     questionDiv.classList.add('question');
     questionDiv.innerHTML = `<h3>${question.question}</h3>
                              <p>Correct Answer: ${question.correctAnswer}</p>
-                             <p>Your Answer: ${userAnswer}</p>
+                             <p>Your Answer: ${question.userAnswer}</p>
                              <ul class="resources"></ul>`;
     // Display the resources for each question
     let resourcesList = questionDiv.querySelector('.resources');
@@ -170,12 +183,12 @@ function startQuiz() {
 };
 
 let allQuestions = [  new Question(
-  "Why did the programmer quit his job?",
-  "She didn't get arrays.",
+  "Why did the programmer quit their job?",
+  "They didn't get arrays.",
   [
-  "Because she was tired of coding",
-  "Because she didn't like his boss",
-  "Because she wanted to start his own startup"
+  "Because they were tired of coding",
+  "Because they didn't like their boss",
+  "Because they hated gituations"
   ],
   [
   "https://www.reddit.com/r/ProgrammerHumor/comments/3hs6iw/why_did_the_programmer_quit_his_job/",
@@ -345,26 +358,14 @@ let allQuestions = [  new Question(
       "https://www.reddit.com/r/ProgrammerHumor/comments/22g95d/why_programmers_dont_like_nature/"
     ]
   ),
-  new Question(
-    "Why did the programmer quit his job?",
-    "She didn't get arrays.",
-    [
-      "Because she was tired of coding",
-      "Because she didn't like his boss",
-      "Because she wanted to start his own startup"
-    ],
-    [
-      "https://www.reddit.com/r/ProgrammerHumor/comments/3hs6iw/why_did_the_programmer_quit_his_job/",
-      "https://www.reddit.com/r/ProgrammerHumor/comments/5v5kl5/why_did_the_javascript_developer_quit_his_job/"
-    ]
-  ),
+  
   new Question(
     "Why did the programmer go broke?",
-    "She used up all his cache.",
+    "They used up all their cache.",
     [
-      "Because he spent too much money",
-      "Because he invested poorly",
-      "Because he didn't have a good business plan"
+      "Because they spent too much money",
+      "Because they invested poorly",
+      "Because they didn't have a good business plan"
     ],
     [
       "https://www.reddit.com/r/ProgrammerHumor/comments/33epii/why_did_the_programmer_go_broke/"
@@ -410,11 +411,11 @@ let allQuestions = [  new Question(
   ),
   new Question(
     "Why did the JavaScript developer wear a tie?",
-    "Because he wanted to look 'classy'.",
+    "Because they wanted to look 'classy'.",
     [
-      "Because he had a job interview",
+      "Because they had a job interview",
       "Because it was Casual Friday",
-      "Because he had a hot date"
+      "Because they had a hot date"
     ],
     [
       "https://www.reddit.com/r/ProgrammerHumor/comments/3mbs9e/why_did_the_javascript_developer_wear_a_tie/"
