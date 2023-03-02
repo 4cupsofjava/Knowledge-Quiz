@@ -9,7 +9,6 @@ function studentInfo(firstName, lastName, correctAnswer, wrongAnswers) {
 
 // Retrieve scores from localStorage and parse them from JSON
 let scores = JSON.parse(localStorage.getItem('userScores'));
-
 // Create an array of student objects
 let students = [
   new studentInfo("John", "Smith", 5, 4),

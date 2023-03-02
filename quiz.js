@@ -166,7 +166,20 @@ function startQuiz() {
 
 console.log(localStorage.getItem('userScores'));
 console.log(localStorage.getItem('userScores'[1]));
-let allQuestions = [  new Question(    "What is 'event bubbling' in JavaScript?",    "The process by which an event is handled by its target element, and then by its parent elements",    [      "The process by which an event is handled only by its target element",      "The process by which an event is handled by all elements on the page",      "The process by which an event is handled by its parent element, and then by its child elements"    ],
+
+let allQuestions = [  new Question(
+  "Why did the programmer quit his job?",
+  "He didn't get arrays.",
+  [
+  "Because he was tired of coding",
+  "Because he didn't like his boss",
+  "Because he wanted to start his own startup"
+  ],
+  [
+  "https://www.reddit.com/r/ProgrammerHumor/comments/3hs6iw/why_did_the_programmer_quit_his_job/",
+  "https://www.reddit.com/r/ProgrammerHumor/comments/5v5kl5/why_did_the_javascript_developer_quit_his_job/"
+  ]
+  ),new Question(    "What is 'event bubbling' in JavaScript?",    "The process by which an event is handled by its target element, and then by its parent elements",    [      "The process by which an event is handled only by its target element",      "The process by which an event is handled by all elements on the page",      "The process by which an event is handled by its parent element, and then by its child elements"    ],
     [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#Event_bubbling_and_capture",      "https://www.w3schools.com/js/js_htmldom_eventlistener.asp",      "https://javascript.info/bubbling-and-capturing"    ]
   ),
   new Question(
