@@ -171,11 +171,11 @@ function startQuiz() {
 
 let allQuestions = [  new Question(
   "Why did the programmer quit his job?",
-  "He didn't get arrays.",
+  "She didn't get arrays.",
   [
-  "Because he was tired of coding",
-  "Because he didn't like his boss",
-  "Because he wanted to start his own startup"
+  "Because she was tired of coding",
+  "Because she didn't like his boss",
+  "Because she wanted to start his own startup"
   ],
   [
   "https://www.reddit.com/r/ProgrammerHumor/comments/3hs6iw/why_did_the_programmer_quit_his_job/",
@@ -347,11 +347,11 @@ let allQuestions = [  new Question(
   ),
   new Question(
     "Why did the programmer quit his job?",
-    "He didn't get arrays.",
+    "She didn't get arrays.",
     [
-      "Because he was tired of coding",
-      "Because he didn't like his boss",
-      "Because he wanted to start his own startup"
+      "Because she was tired of coding",
+      "Because she didn't like his boss",
+      "Because she wanted to start his own startup"
     ],
     [
       "https://www.reddit.com/r/ProgrammerHumor/comments/3hs6iw/why_did_the_programmer_quit_his_job/",
@@ -360,7 +360,7 @@ let allQuestions = [  new Question(
   ),
   new Question(
     "Why did the programmer go broke?",
-    "He used up all his cache.",
+    "She used up all his cache.",
     [
       "Because he spent too much money",
       "Because he invested poorly",
