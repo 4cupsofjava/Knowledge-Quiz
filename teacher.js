@@ -27,7 +27,7 @@ for (let i = 0; i < scores.length; i++) {
   let firstName = scores[i].userName.split(' ')[0];
   let lastName = scores[i].userName.split(' ')[1];
   let correctAnswer = scores[i].numCorrect;
-  let numQuestions = scores[i].numQuestions;
+  let numQuestions = scores[i].tQuestions;
   teachersPet.push(new studentInfo(firstName, lastName, correctAnswer, numQuestions));
 }
 

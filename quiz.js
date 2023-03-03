@@ -5,7 +5,7 @@ let myForm = document.querySelector('#my-form');
 let userName = '';
 let startTime = 0;
 let timerId = null;
-
+let numQuestions = document.getElementById('dropdown').value;
 function handleFormSubmit(event) {
   event.preventDefault();
   let firstName = event.target.elements.firstName.value;
@@ -46,7 +46,8 @@ function Quiz(userName, allQuestions, numQuestions) {
     const j = Math.floor(Math.random() * (i + 1));
     [allQuestions[i], allQuestions[j]] = [allQuestions[j], allQuestions[i]];
   }
-  
+  //use dropdown value to determine number of questions
+  numQuestions = document.getElementById('dropdown').value;
   this.allQuestions = allQuestions.slice(0, numQuestions);
   this.currentQuestionIndex = 0;
   this.score = 0;
@@ -170,8 +171,7 @@ Quiz.prototype.displayScore = function() {
 };
 
 
-function startQuiz() {
-  let numQuestions = 20; // set the maximum number of questions to ask
+function startQuiz() { // set the maximum number of questions to ask
   let quiz = new Quiz(userName, allQuestions, numQuestions);
   quiz.displayQuestion();
 
