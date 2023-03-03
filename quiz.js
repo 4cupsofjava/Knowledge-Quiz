@@ -124,9 +124,10 @@ Quiz.prototype.displayScore = function() {
     let question = this.allQuestions[i];
     let userAnswer = this.allQuestions[i].userAnswer;
     console.log(this.allQuestions[i].userAnswer);
+    
     let questionDiv = document.createElement('div');
     questionDiv.classList.add('question');
-    questionDiv.innerHTML = `<h3>${question.question}</h3>
+    questionDiv.innerHTML = `<h3>${i+1}. ${question.question}</h3>
                              <p><strong>Correct Answer:</strong> ${question.correctAnswer}</p>
                              <br>
                              <p><strong>Your Answer:</strong> ${question.userAnswer}</p>

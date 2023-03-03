@@ -6,25 +6,22 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>JavaScript Quiz</title>
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="style.css" />
-            <!-- Matrix Style Background -->
-            <!--matrix-->
-            <div class="matrix-background">
-              <canvas id="c"></canvas>
-            </div>
-            <script src="matrix.js"></script>
-            <!--matrix-->
+    <!-- Matrix Style Background -->
+    <div class="matrix-background">
+      <canvas id="c"></canvas>
+    </div>
+    <script src="matrix.js"></script>
   </head>
-  <header>
-    <h1>Qode Quiz</h1>
+  <body>
+    <header>
+      <h1>Qode Quiz</h1>
       <nav>
         <ul>
           <li><h2><a href="teacher.html">Teacher Resources</a></h2></li>
           <li><h2><a href="about.html">About Us</a></h2></li>
         </ul>
       </nav>
-  </header>
-  <body>
+    </header>
     <form id="my-form">
       <fieldset>
         <legend id="form-title">Fill Out To Begin:</legend>
@@ -36,7 +33,7 @@
       </fieldset>
     </form>
     <div id="quiz" class="container">
-      <div id="quiz">
+      <div id="quiz-container">
         <div id="progress-bar"></div>
         <h2 id="question"></h2>
         <!-- <h3 id="timer">Time Remaining: </h3> -->
@@ -50,6 +47,7 @@
       </div>
       <div id="review" style="display:none;">
         <h2>Quiz Review</h2>
+        <div id="questions-container"></div>
       </div>
       <p id="score"></p>
       <ul id="resources"></ul>
