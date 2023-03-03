@@ -2,27 +2,33 @@
 
 let myForm = document.querySelector('#my-form');
 
-let userName = ''
+let userName = '';
+let startTime = 0;
+let timerId = null;
+
 function handleFormSubmit(event) {
   event.preventDefault();
   let firstName = event.target.elements.firstName.value;
   let lastName = event.target.elements.lastName.value;
-  userName = `${firstName} ${lastName}`;
+  if (firstName && lastName) {
+    let capitalizedFirstName = `${firstName.charAt(0).toUpperCase()}${firstName.slice(1).toLowerCase()}`;
+    let capitalizedLastName = `${lastName.charAt(0).toUpperCase()}${lastName.slice(1).toLowerCase()}`;
+    userName = `${capitalizedFirstName} ${capitalizedLastName}`;
+    console.log(userName);
 
-  let form = document.getElementById('my-form');
-  let nameFields = form.querySelector('fieldset');
-  nameFields.style.display = 'none';
+    let form = document.getElementById('my-form');
+    let nameFields = form.querySelector('fieldset');
+    nameFields.style.display = 'none';
 
-  let quizDiv = document.getElementById('quiz');
-  quizDiv.style.display = 'block';
+    let quizDiv = document.getElementById('quiz');
+    quizDiv.style.display = 'block';
 
-  let quiz = new Quiz(userName, allQuestions);
-  quiz.displayQuestion();
+    let quiz = new Quiz(userName, allQuestions, numQuestions);
+    quiz.displayQuestion();
+  }
 };
 
 myForm.addEventListener('submit', handleFormSubmit);
-
-let amount = 0
 
 function Question(question, correctAnswer, wrongAnswers, resources) {
   this.question = question;
@@ -84,12 +90,10 @@ Quiz.prototype.checkAnswer = function(answer) {
     if (answer === question.correctAnswer) {
       console.log("Correct!");
       this.score++;
-      amount++;
     } else {
       console.log("Incorrect!");
       console.log("Resources:");
       console.log(question.resources);
-      amount++;
     }
     this.currentQuestionIndex++;
     this.submittedQuestions.push(answer);
@@ -107,24 +111,25 @@ Quiz.prototype.checkAnswer = function(answer) {
 Quiz.prototype.displayScore = function() {
   let quizDiv = document.getElementById('quiz');
   quizDiv.style.display = 'none';
-
+  // clearInterval(timerId);
   let reviewDiv = document.createElement('div');
   reviewDiv.id = 'review';
 
-  let numQuestions = this.submittedQuestions.length;
+  let tQuestions = this.submittedQuestions.length;
   let numCorrect = this.score;
-  let scoreText = document.createElement('p');
-  scoreText.textContent = `You got ${numCorrect} out of ${numQuestions} correct.`;
+  let scoreText = document.createElement('h3');
+  scoreText.textContent = `${userName.split(" ")[0]} got ${numCorrect} out of ${tQuestions} correct.`;
   reviewDiv.appendChild(scoreText);
-  for (let i = 0; i < numQuestions; i++) {
+  for (let i = 0; i < tQuestions; i++) {
     let question = this.allQuestions[i];
     let userAnswer = this.allQuestions[i].userAnswer;
     console.log(this.allQuestions[i].userAnswer);
     let questionDiv = document.createElement('div');
     questionDiv.classList.add('question');
     questionDiv.innerHTML = `<h3>${question.question}</h3>
-                             <p>Correct Answer: ${question.correctAnswer}</p>
-                             <p>Your Answer: ${question.userAnswer}</p>
+                             <p><strong>Correct Answer:</strong> ${question.correctAnswer}</p>
+                             <br>
+                             <p><strong>Your Answer:</strong> ${question.userAnswer}</p>
                              <ul class="resources"></ul>`;
     // Display the resources for each question
     let resourcesList = questionDiv.querySelector('.resources');
@@ -158,7 +163,7 @@ Quiz.prototype.displayScore = function() {
   if (localStorage.getItem('userScores')) {
     userScores = JSON.parse(localStorage.getItem('userScores'));
   }
-  userScores.push({userName, numCorrect, numQuestions});
+  userScores.push({userName, numCorrect, tQuestions});
   localStorage.setItem('userScores', JSON.stringify(userScores));
   console.log(userScores);
 };
@@ -469,111 +474,334 @@ let allQuestions = [  new Question(
       "https://www.reddit.com/r/ProgrammerHumor/comments/5p5mgk/why_do_javascript_developers_hate_nature/"
     ]
   ),
-  new Question(    "What is JavaScript?",    "A scripting language used to create and control dynamic website content.",    [      "A markup language used to create web pages",      "A programming language used to create operating systems",      "A database language used to store website content"    ],
-    [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/What_is_JavaScript"    ]
+  new Question(
+  "What is the difference between 'var', 'let', and 'const' for declaring variables in JavaScript?",
+  "Var is function scoped, let and const are block scoped. Const variables can't be reassigned.",
+  [
+    "Let is function scoped, var and const are block scoped. Const variables can be reassigned.",
+    "Const is function scoped, let and var are block scoped. Let variables can't be reassigned.",
+    "Var and const are function scoped, let is block scoped. Var variables can't be reassigned.",
+  ],
+  [
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/var",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let",
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/const",
+  ]
+  ), 
+  new Question(
+  "What is a function in JavaScript?",
+  "A block of code that performs a specific task and can be called multiple times throughout the program.",
+  [
+    "A type of variable that stores a collection of data.",
+    "A way of selecting and manipulating elements in the HTML DOM.",
+    "A set of conditional statements that executes different code based on a specific condition.",
+  ],
+  [
+    "https://developer.mozilla.org/en-US/docs/Glossary/Function",
+  ]
   ),
   new Question(
-    "What is a variable in JavaScript?",
-    "A container for storing data values.",
-    [      "A type of function",      "A special type of HTML element",      "A way of organizing code"    ],
-    [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Variables"    ]
+  "How do you declare a function in JavaScript?",
+  "By using the 'function' keyword followed by the function name, parameters (if any), and the function body.",
+  [
+    "By using the 'var' keyword followed by the function name, parameters (if any), and the function body.",
+    "By using the 'let' keyword followed by the function name, parameters (if any), and the function body.",
+    "By using the 'const' keyword followed by the function name, parameters (if any), and the function body.",
+  ],
+  [
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions",
+  ]
+  ),
+
+  new Question(
+  "What is an array in JavaScript?",
+  "An ordered list of values that can be of any data type.",
+  [
+    "A way of selecting and manipulating elements in the HTML DOM.",
+    "A type of variable that stores a single value.",
+    "A set of conditional statements that executes different code based on a specific condition.",
+  ],
+  [
+    "https://developer.mozilla.org/en-US/docs/Glossary/array",
+  ]
   ),
   new Question(
-    "What is a function in JavaScript?",
-    "A block of code designed to perform a specific task.",
-    [      "A type of variable",      "A way of styling web pages",      "A type of event"    ],
-    [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Functions"    ]
+  "How do you access an element in an array in JavaScript?",
+  "By using the square bracket notation with the index of the element you want to access.",
+  [
+    "By using the curly brace notation with the index of the element you want to access.",
+    "By using the parentheses notation with the index of the element you want to access.",
+    "By using the angle bracket notation with the index of the element you want to access.",
+  ],
+  [
+    "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+  ]
   ),
   new Question(
-    "What is an if statement in JavaScript?",
-    "A conditional statement that executes a block of code if a specified condition is true.",
-    [      "A loop that repeats a block of code",      "A way of defining a function",      "A way of storing data"    ],
-    [      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/if...else"    ]
+    "What is Git and why is it useful for developers?",
+    "Git is a version control system that allows developers to keep track of changes made to code over time. It is useful for collaboration, maintaining a history of changes, and for rolling back to previous versions if necessary.",
+    ["Git is a code editor for web development", "Git is a web server for hosting websites", "Git is a database for storing user information"],
+    ["https://git-scm.com/book/en/v2/Getting-Started-About-Version-Control"]
   ),
   new Question(
-    "What is a for loop in JavaScript?",
-    "A loop that repeats a block of code a specified number of times.",
-    [      "A way of defining a function",      "A way of styling web pages",      "A way of storing data"    ],
-    [      "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for"    ]
+    "What is the command to initialize a new Git repository?",
+    "The command to initialize a new Git repository is 'git init'.",
+    ["git add", "git clone", "git commit"],
+    ["https://git-scm.com/book/en/v2/Git-Basics-Getting-a-Git-Repository"]
   ),
   new Question(
-    "What is an array in JavaScript?",
-    "A special variable that can hold more than one value at a time.",
-    [      "A way of defining a function",      "A way of styling web pages",      "A type of loop"    ],
-    [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps/Arrays"    ]
+    "What is the command to add files to the staging area?",
+    "The command to add files to the staging area is 'git add [file]'.",
+    ["git commit", "git status", "git push"],
+    ["https://git-scm.com/docs/git-add"]
+  ),
+  new Question(
+    "What is the command to commit changes to the local repository?",
+    "The command to commit changes to the local repository is 'git commit -m '[commit message]''.",
+    ["git push", "git clone", "git pull"],
+    ["https://git-scm.com/docs/git-commit"]
+  ),
+  new Question(
+    "What is the command to view the commit history?",
+    "The command to view the commit history is 'git log'.",
+    ["git status", "git branch", "git clone"],
+    ["https://git-scm.com/docs/git-log"]
+  ),
+  new Question(
+    "What is a 'branch' in Git?",
+    "A branch is a version of the code that is separate from the main branch, allowing for experimentation and development without affecting the main codebase.",
+    ["A way to store code on a remote server", "A version of the code that is no longer used", "A way to merge code from different developers"],
+    ["https://git-scm.com/book/en/v2/Git-Branching-Branches-in-a-Nutshell"]
+  ),
+  new Question(
+    "What is the command to create a new branch?",
+    "The command to create a new branch is 'git branch [new branch name]'.",
+    ["git add", "git push", "git merge"],
+    ["https://git-scm.com/docs/git-branch"]
+  ),
+  new Question(
+    "What is the command to switch to a different branch?",
+    "The command to switch to a different branch is 'git checkout [branch name]'.",
+    ["git merge", "git push", "git status"],
+    ["https://git-scm.com/docs/git-checkout"]
+  ),
+  new Question(
+    "What is a 'merge conflict' in Git?",
+    "A merge conflict occurs when Git is unable to automatically merge two branches due to conflicting changes made to the same lines of code.",
+    ["A conflict between two different Git repositories", "A conflict between the local and remote repository", "A conflict between two different Git commands"],
+    ["https://git-scm.com/docs/git-merge#_how_conflicts_are_presented"]
+  ),
+  new Question(
+    "What does HTML stand for?",
+    "Hyper Text Markup Language",
+    ["Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Text Modeling Language"],
+    ["https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started"]
+  ),
+  new Question(
+    "What is the basic structure of an HTML document?",
+    "<!DOCTYPE html><html><head><title></title></head><body></body></html>",
+    ["<html><head><title></title></head><body></body></html>", "<!DOCTYPE><html><head><title></title></head><body></body></html>", "<!DOCTYPE html><title></title><body></body>"],
+    ["https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started"]
+  ),
+  new Question(
+    "What is the purpose of the <head> section in an HTML document?",
+    "To contain metadata about the document, such as the page title and links to stylesheets.",
+    ["To display the main content of the page", "To contain the footer of the page", "To define the layout of the page"],
+    ["https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML"]
+  ),
+  new Question(
+    "What is an HTML tag?",
+    "A keyword surrounded by angle brackets (< >) used to define elements in an HTML document.",
+    ["A type of hyperlink", "A section of content within an HTML document", "A method for styling elements in an HTML document"],
+    ["https://developer.mozilla.org/en-US/docs/Glossary/Tag"]
+  ),
+  new Question(
+    "What is the difference between a block-level element and an inline element in HTML?",
+    "Block-level elements start on a new line and take up the full width of the page, while inline elements are displayed inline with the surrounding content.",
+    ["Block-level elements are used for images, while inline elements are used for text", "Inline elements are styled using CSS, while block-level elements are not", "Block-level elements can only be nested inside other block-level elements, while inline elements can be nested inside block-level elements"],
+    ["https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements", "https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements"]
+  ),
+  new Question(
+    "What is the purpose of the alt attribute in an image tag?",
+    "To provide alternative text for users who are unable to view the image.",
+    ["To define the size of the image", "To specify the file type of the image", "To add a caption to the image"],
+    ["https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Images_in_HTML"]
+  ),
+  new Question(
+    "What is the difference between the <ul> and <ol> elements in HTML?",
+    "<ul> represents an unordered list of items, while <ol> represents an ordered list of items.",
+    ["<ul> is used for images, while <ol> is used for text", "<ol> is used for images, while <ul> is used for text", "There is no difference between the two elements"],
+    ["https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol"]
   ),
   new Question(
     "What is an object in JavaScript?",
-    "A collection of related data and/or functionality.",
-    [      "A way of defining a function",      "A type of loop",      "A way of storing data"    ],
-    [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics"    ]
+    "An object is a collection of properties that can contain values or other objects.",
+    [    "An object is a type of function in JavaScript.",    "An object is a data type in JavaScript that can store only numbers.",    "An object is a string literal in JavaScript."  ],
+    ["https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Working_with_Objects"]
   ),
   new Question(
-    "What is a method in JavaScript?",
-    "A function that is a property of an object.",
-    [      "A way of defining a variable",      "A way of styling web pages",      "A way of storing data"    ],
-    [      "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_methods"    ]
+  "What does HTML stand for?",
+  "Hyper Text Markup Language",
+  ["Hyperlinks and Text Markup Language", "Home Tool Markup Language", "Hyper Text Modeling Language"],
+  ["https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started"]
   ),
   new Question(
-    "What is the DOM in JavaScript?",
-    "The Document Object Model is a programming interface for HTML and XML documents.",
-    [      "A way of defining a function",      "A way of styling web pages",      "A way of storing data"    ],
-    [      "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction"    ]
+    "What is the basic structure of an HTML document?",
+    "<!DOCTYPE html><html><head><title></title></head><body></body></html>",
+    ["<html><head><title></title></head><body></body></html>", "<!DOCTYPE><html><head><title></title></head><body></body></html>", "<!DOCTYPE html><title></title><body></body>"],
+    ["https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started"]
   ),
   new Question(
-    "When should you use an unordered list in your HTML document?",
-    "When the list items don't have a specific order or ranking",
-    ["When the list items have a specific order or ranking", "When the list items are numbers or steps", "When the list items are dates or times"],
-    ["https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul"]
+    "What is the purpose of the <head> section in an HTML document?",
+    "To contain metadata about the document, such as the page title and links to stylesheets.",
+    ["To display the main content of the page", "To contain the footer of the page", "To define the layout of the page"],
+    ["https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML"]
   ),
   new Question(
-    "How do you change the bullet style of unordered list items?",
-    "By using the 'list-style-type' property in CSS",
-    ["By using the 'list-style-image' property in CSS", "By using the 'bullet-style' property in CSS", "By using the 'unordered-list-style' property in CSS"],
-    ["https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type"]
+    "What is an HTML tag?",
+    "A keyword surrounded by angle brackets (< >) used to define elements in an HTML document.",
+    ["A type of hyperlink", "A section of content within an HTML document", "A method for styling elements in an HTML document"],
+    ["https://developer.mozilla.org/en-US/docs/Glossary/Tag"]
+  ),
+  new Question(
+    "What is the difference between a block-level element and an inline element in HTML?",
+    "Block-level elements start on a new line and take up the full width of the page, while inline elements are displayed inline with the surrounding content.",
+    ["Block-level elements are used for images, while inline elements are used for text", "Inline elements are styled using CSS, while block-level elements are not", "Block-level elements can only be nested inside other block-level elements, while inline elements can be nested inside block-level elements"],
+    ["https://developer.mozilla.org/en-US/docs/Web/HTML/Block-level_elements", "https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements"]
+  ),
+  new Question(
+    "What is the purpose of the alt attribute in an image tag?",
+    "To provide alternative text for users who are unable to view the image.",
+    ["To define the size of the image", "To specify the file type of the image", "To add a caption to the image"],
+    ["https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding/Images_in_HTML"]
+  ),
+  new Question(
+    "How do you create a new object in JavaScript?",
+    "You can create a new object using the object literal notation, or by using the Object() constructor function.",
+    [    "You can create a new object using the array literal notation.",    "You can create a new object using the function constructor.",    "You can create a new object using the string literal notation."  ],
+    ["https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics"]
+  ),
+  new Question(
+    "What is a property of an object in JavaScript?",
+    "A property is a key-value pair that defines a characteristic of the object.",
+    [    "A property is a method of an object.",    "A property is a data type of an object.",    "A property is a string value of an object."  ],
+    ["https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics"]
+  ),
+  new Question(
+    "How do you access a property of an object in JavaScript?",
+    "You can access a property of an object using the dot notation or the bracket notation.",
+    [    "You can access a property of an object using the comma notation.",    "You can access a property of an object using the semicolon notation.",    "You can access a property of an object using the colon notation."  ],
+    ["https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics"]
+  ),
+  new Question(
+    "What is a method of an object in JavaScript?",
+    "A method is a function that is a property of an object.",
+    [    "A method is a data type of an object.",    "A method is a string value of an object.",    "A method is a number value of an object."  ],
+    ["https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Object_methods"]
+  ),
+  new Question(
+    "How do you add a new property to an object in JavaScript?",
+    "You can add a new property to an object by assigning a value to a new key.",
+    [    "You can add a new property to an object by removing an existing property.",    "You can add a new property to an object by creating a new object.",    "You can add a new property to an object by defining a new method."  ],
+    ["https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/Basics"]
+  ),
+  new Question(
+    "What is Git?",
+    "Git is a version control system that allows you to track changes to files over time.",
+    [    "A software development methodology",    "A cloud-based storage system",    "A programming language"  ],
+    [    "https://git-scm.com/",    "https://www.atlassian.com/git/tutorials/what-is-git"  ]
   ),
   
   new Question(
-    "When should you use an ordered list vs an unordered list in your HTML document?",
-    "When the list items have a specific order or ranking",
-    ["When the list items don't have a specific order or ranking", "When the list items are numbers or steps", "When the list items are dates or times"],
-    ["https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul"]
+    "What is GitHub?",
+    "GitHub is a web-based platform for version control and collaboration that utilizes Git.",
+    [    "A programming language",    "A software development methodology",    "A cloud-based storage system"  ],
+    [    "https://github.com/about",    "https://docs.github.com/en/github/getting-started-with-github/what-is-github"  ]
   ),
   
   new Question(
-    "Describe two ways you can change the numbers on list items provided by an ordered list?",
-    "By using the 'type' attribute in HTML or the 'list-style-type' property in CSS",
-    ["By using the 'type' attribute in CSS or the 'list-style-image' property in HTML", "By using the 'bullet-style' property in CSS or the 'type' attribute in HTML", "By using the 'unordered-list-style' property in CSS or the 'list-style-image' property in HTML"],
-    ["https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol#attr-type", "https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type"]
-  ),
-  new Question(
-    "When should you use an unordered list in your HTML document?",
-    "When you have a list of items that don't need to be in any particular order.",
-    ["When you have a list of items that need to be in a specific order.", "When you have a list of items that are related to each other but don't form a sequence.", "When you have a list of items that need to be indented or nested."],
-    ["https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ul"]
+    "What is a repository on GitHub?",
+    "A repository on GitHub is a place where code is stored, organized, and managed.",
+    [    "A branch of development",    "A programming language",    "A physical server"  ],
+    [    "https://docs.github.com/en/get-started/quickstart/create-a-repo",    "https://docs.github.com/en/get-started/quickstart/create-a-repo#about-repositories"  ]
   ),
   
   new Question(
-    "How do you change the bullet style of unordered list items?",
-    "By setting the 'list-style-type' property in CSS.",
-    ["By setting the 'list-style' property in CSS.", "By setting the 'bullet-style' property in CSS.", "By adding a custom image to use as the bullet point."],
-    ["https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type"]
+    "What is a pull request?",
+    "A pull request is a method of submitting contributions to a repository on GitHub.",
+    [    "A request for help with code",    "A request to delete a repository",    "A request to clone a repository"  ],
+    [    "https://docs.github.com/en/github/collaborating-with-pull-requests/about-pull-requests",    "https://www.atlassian.com/git/tutorials/making-a-pull-request"  ]
   ),
   
   new Question(
-    "When should you use an ordered list vs an unordered list in your HTML document?",
-    "When you have a list of items that need to be in a specific order.",
-    ["When you have a list of items that don't need to be in any particular order.", "When you have a list of items that are related to each other but don't form a sequence.", "When you have a list of items that need to be indented or nested."],
-    ["https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol"]
+    "What is a merge conflict?",
+    "A merge conflict occurs when two different changes are made to the same line or section of code, making it difficult to reconcile the changes.",
+    [    "A conflict between team members",    "A problem with a repository",    "A dispute over code ownership"  ],
+    [    "https://docs.github.com/en/github/collaborating-with-pull-requests/addressing-merge-conflicts/about-merge-conflicts",    "https://www.atlassian.com/git/tutorials/using-branches/merge-conflicts"  ]
   ),
   
   new Question(
-    "Describe two ways you can change the numbers on list items provided by an ordered list?",
-    "By setting the 'list-style-type' property in CSS or by using the 'start' attribute on the 'ol' tag.",
-    ["By setting the 'list-style' property in CSS or by using the 'type' attribute on the 'ol' tag.", "By setting the 'numbering' property in CSS or by using the 'value' attribute on the 'ol' tag.", "By adding a custom image to use as the number."],
-    ["https://developer.mozilla.org/en-US/docs/Web/CSS/list-style-type", "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol#attr-start"]
+    "What is a fork on GitHub?",
+    "A fork on GitHub is a copy of a repository that allows you to experiment with changes without affecting the original codebase.",
+    [    "A way to contribute to a repository",    "A way to delete a repository",    "A way to clone a repository"  ],
+    [    "https://docs.github.com/en/github/getting-started-with-github/fork-a-repo",    "https://guides.github.com/activities/forking/"  ]
   ),
   
+  new Question(
+    "What is a branch on GitHub?",
+    "A branch on GitHub is a parallel version of the codebase that allows you to make changes without affecting the main codebase.",
+    [    "A copy of a repository",    "A server for hosting code",    "A version of the codebase"  ],
+    [    "https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/about-branches",    "https://www.atlassian.com/git/tutorials/using-branches"  ]
+  ),
+  new Question(
+    "What is Flexbox?",
+    "A layout mode in CSS that arranges items in a one-dimensional line and provides alignment capabilities for its child elements.",
+    ["A layout mode in CSS that arranges items in a two-dimensional grid", "A way to manipulate images in HTML", "A database language"],
+    ["https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox"],
+  ),
+  
+  new Question(
+    "What is the difference between justify-content and align-items in Flexbox?",
+    "justify-content aligns items along the main axis (horizontally by default), and align-items aligns items along the cross axis (vertically by default).",
+    ["justify-content aligns items along the cross axis, and align-items aligns items along the main axis", "justify-content and align-items have the same functionality", "justify-content only works with block elements and align-items only works with inline elements"],
+    ["https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox"],
+  ),
+  
+  new Question(
+    "What is Canvas?",
+    "A drawing surface that allows for dynamic, scriptable rendering of 2D shapes and bitmap images.",
+    ["A programming language", "A layout mode in CSS", "A database management system"],
+    ["https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial"],
+  ),
+  
+  new Question(
+    "What is the purpose of the 'context' in Canvas?",
+    "The context is the object that provides access to the methods and properties for drawing on the canvas.",
+    ["The context is the area of the canvas that the drawing will be confined to", "The context is the background color of the canvas", "The context is the way that images are loaded onto the canvas"],
+    ["https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D"],
+  ),
+  
+  new Question(
+    "What is Grid?",
+    "A layout mode in CSS that provides a two-dimensional grid-based layout system, with rows and columns.",
+    ["A layout mode in CSS that provides a one-dimensional line-based layout system", "A way to manipulate text in HTML", "A server-side scripting language"],
+    ["https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout"],
+  ),
+  
+  new Question(
+    "What is the difference between grid-template-columns and grid-template-rows in Grid?",
+    "grid-template-columns defines the number and size of columns in the grid, and grid-template-rows defines the number and size of rows in the grid.",
+    ["grid-template-columns and grid-template-rows have the same functionality", "grid-template-columns defines the number and size of rows in the grid, and grid-template-rows defines the number and size of columns in the grid", "grid-template-columns and grid-template-rows define the same thing, but with different syntax"],
+    ["https://developer.mozilla.org/en-US/docs/Web/CSS/grid-template-columns"],
+  ),
+  
+  new Question(
+    "What is the purpose of grid-gap in Grid?",
+    "grid-gap sets the size of the gap (or gutter) between the rows and columns of the grid.",
+    ["grid-gap sets the size of the columns and rows in the grid", "grid-gap sets the background color of the grid", "grid-gap sets the number of columns and rows in the grid"],
+    ["https://developer.mozilla.org/en-US/docs/Web/CSS/gap"],
+  ),
+
 ];
 
 startQuiz();
